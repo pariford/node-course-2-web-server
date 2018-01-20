@@ -12,7 +12,15 @@ app.use((req, res, next) => {
   var log = `${now}: ${req.method} ${req.url}`;
 
   console.log(log);
-  fs.appendFile('server.log', log + '\n');
+  /*   fs.appendFile('server.log', log + '\n',(err)=>{
+      if(err){
+        console.log("Error occured");
+      }
+    }); */
+
+  // else you can use the sync method available if you dont want to write callback method
+
+  fs.appendFileSync('server.log', log + "\n");
   next();
 });
 
@@ -28,6 +36,13 @@ hbs.registerHelper('getCurrentYear', () => {
 
 hbs.registerHelper('screamIt', (text) => {
   return text.toUpperCase();
+});
+
+app.get('/profile', (req, res) => {
+  res.render('profile.hbs', {
+    name: 'Paritosh Bapat',
+    designation: 'Software Development Engineer 2'
+  })
 });
 
 app.get('/', (req, res) => {
